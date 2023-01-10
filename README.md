@@ -53,17 +53,17 @@ The **compareTo** method of the Task class is used to compare the priority of tw
 The Task class represents a unit of work that can be submitted to the CustomExecutor for execution. It implements the Callable interface, which allows it to be run by a thread and return a result. The Task class has the following fields and methods:
 
 ##### Fields
-taskType: an enum of type TaskType representing the priority of the task
-callable: a Callable object that contains the code for the task
+* taskType: an enum of type TaskType representing the priority of the task
+* callable: a Callable object that contains the code for the task
 
 ##### Methods
-Task(Callable<T> callable): constructs a new Task with OTHER as the taskType and the given callable
-Task(Callable<T> callable, TaskType taskType): constructs a new Task with the given callable and taskType
-Task(TaskType taskType, Callable<T> callable): constructs a new Task with the given taskType and callable
-static Task createTask(Callable callable, TaskType taskType): creates a new Task with the given callable and taskType
-static Task createTask(Task task): creates a new Task with the same callable and taskType as the given task
-T call() throws Exception: executes the task's callable and returns the result
-int compareTo(T other): compares the priority of this Task to the given other Task, returning a negative integer if this Task has a higher priority, a positive integer if it has a lower priority, or zero if the priorities are equal
+* Task(Callable<T> callable): constructs a new Task with OTHER as the taskType and the given callable
+* Task(Callable<T> callable, TaskType taskType): constructs a new Task with the given callable and taskType
+* Task(TaskType taskType, Callable<T> callable): constructs a new Task with the given taskType and callable
+* static Task createTask(Callable callable, TaskType taskType): creates a new Task with the given callable and taskType
+* static Task createTask(Task task): creates a new Task with the same callable and taskType as the given task
+* T call() throws Exception: executes the task's callable and returns the result
+* int compareTo(T other): compares the priority of this Task to the given other Task, returning a negative integer if this Task has a higher priority, a positive integer if it has a lower priority, or zero if the priorities are equal
   
 #### TaskType
 The TaskType enum represents the priority of a Task. It has three values: COMPUTATIONAL, IO, and OTHER. Each TaskType has an integer value representing its priority, with COMPUTATIONAL having the highest priority and OTHER having the lowest.
@@ -72,12 +72,11 @@ The TaskType enum represents the priority of a Task. It has three values: COMPUT
 The CustomExecutor class extends ThreadPoolExecutor and is used to run Task objects with different priorities. It has a PriorityBlockingQueue to store the tasks based on their priority, and a pool of threads to run the tasks. The CustomExecutor has the following fields and methods:
 
 ##### Fields
-holder_threads_count: an array of integers representing the number of threads currently running tasks with each TaskType
+* holder_threads_count: an array of integers representing the number of threads currently running tasks with each TaskType
   
 ##### Methods
-CustomExecutor(): constructs a new CustomExecutor with a PriorityBlockingQueue and a thread pool of size equal to half the number of available processors on the current system
-  
-Future<T> submit(...): submits the given Task to the executor and returns a Future object for tracking the task's progress and retrieving the result. There are 3 submit functions, such that: if a task is given, apply submit(Task task). else (only a Callable, or a Callable with Priority) create a Task and apply submit(Task task)
+* CustomExecutor(): constructs a new CustomExecutor with a PriorityBlockingQueue and a thread pool of size equal to half the number of available processors on the current system
+* Future<T> submit(...): submits the given Task to the executor and returns a Future object for tracking the task's progress and retrieving the result. There are 3 submit functions, such that: if a task is given, apply submit(Task task). else (only a Callable, or a Callable with Priority) create a Task and apply submit(Task task)
   
 ### Other Classes
 #### PriorityBlockingQueue
