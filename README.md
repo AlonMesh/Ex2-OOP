@@ -1,5 +1,5 @@
 # Ex2-OOP
-## Ex2_1 - Part1
+## Ex2_1 (Part1)
 
 A Java class containing methods for creating text files, and counting the number of lines in these files using different approaches:
 * Sequentially
@@ -27,3 +27,26 @@ A Java thread class used by getNumOfLinesThreads(String[] fileNames) to count th
 
 #### CountLinesPool
 A java.util.concurrent.Callable implementation used by getNumOfLinesThreadPool(String[] fileNames) to count the number of lines in a single file. Can be submitted to an java.util.concurrent.Executor or java.util.concurrent.ExecutorService for execution.
+
+## Ex2_2 (Part2) - Task Execution
+
+The CustomExecutor is designed to run tasks with different priorities. When a task is submitted to the executor, it is added to a PriorityBlockingQueue based on its priority. The PriorityBlockingQueue is a queue that sorts the tasks based on their priority, with the highest priority tasks at the front of the queue.
+
+The CustomExecutor uses a pool of threads to run the tasks. When a thread becomes available, it takes the next highest priority task from the front of the queue and executes it. This ensures that tasks with higher priorities are completed before tasks with lower priorities.
+
+The CustomExecutor also has a field holder_threads_count, which is an array of integers representing the number of threads currently running tasks with each TaskType. This can be used to track the number of tasks being run for each priority level and ensure that tasks are being distributed appropriately.
+
+The CustomExecutor extends the ThreadPoolExecutor class, which provides several methods for managing the pool of threads and the tasks being run. Some of the major functions used by the CustomExecutor include:
+
+* execute(Runnable command): adds the given Runnable task to the queue for execution by a thread in the pool
+* submit(Callable task): adds the given Callable task to the queue and returns a Future object that can be used to track the task's progress and retrieve the result when it is complete
+* shutdown(): begins the process of shutting down the executor, rejecting any new tasks that are submitted
+* awaitTermination(long timeout, TimeUnit unit): blocks until all tasks have completed execution after a shutdown request, or the timeout occurs, whichever happens first.
+* 
+The Task class implements the **Callable** interface and provides a **call()** method that is executed by a thread when the task is run. The call() method should contain the code for the task that needs to be performed.
+
+The **compareTo** method of the Task class is used to compare the priority of two tasks. It compares the taskType values of the tasks, with the task having a higher priority being ranked higher. This is used by the PriorityBlockingQueue to sort the tasks based on their priority.
+
+
+
+
