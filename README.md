@@ -32,9 +32,11 @@ A java.util.concurrent.Callable implementation used by getNumOfLinesThreadPool(S
 Each example runs 10,000 files that contains a random number x between 0 and 300.
 
 In this run, the seed of each function is diffrent:
+
 <img width="283" alt="image" src="https://user-images.githubusercontent.com/97172662/211505994-cd6f98d5-90a5-460c-8679-147f9e61d149.png">
 
 In this run, all the function share the same seed:
+
 <img width="278" alt="image" src="https://user-images.githubusercontent.com/97172662/211506416-2ee3526b-e12c-45d8-a214-58b2709449ec.png">
 
 ## Ex2_2 (Part2) - Task Execution
