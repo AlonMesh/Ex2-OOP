@@ -48,7 +48,7 @@ The Task class implements the **Callable** interface and provides a **call()** m
 
 The **compareTo** method of the Task class is used to compare the priority of two tasks. It compares the taskType values of the tasks, with the task having a higher priority being ranked higher. This is used by the PriorityBlockingQueue to sort the tasks based on their priority.
 
-### Classes
+### Major Classes
 #### Task
 The Task class represents a unit of work that can be submitted to the CustomExecutor for execution. It implements the Callable interface, which allows it to be run by a thread and return a result. The Task class has the following fields and methods:
 
@@ -64,5 +64,31 @@ static Task createTask(Callable callable, TaskType taskType): creates a new Task
 static Task createTask(Task task): creates a new Task with the same callable and taskType as the given task
 T call() throws Exception: executes the task's callable and returns the result
 int compareTo(T other): compares the priority of this Task to the given other Task, returning a negative integer if this Task has a higher priority, a positive integer if it has a lower priority, or zero if the priorities are equal
+  
+#### TaskType
+The TaskType enum represents the priority of a Task. It has three values: COMPUTATIONAL, IO, and OTHER. Each TaskType has an integer value representing its priority, with COMPUTATIONAL having the highest priority and OTHER having the lowest.
+  
+#### CustomExecutor
+The CustomExecutor class extends ThreadPoolExecutor and is used to run Task objects with different priorities. It has a PriorityBlockingQueue to store the tasks based on their priority, and a pool of threads to run the tasks. The CustomExecutor has the following fields and methods:
 
+##### Fields
+holder_threads_count: an array of integers representing the number of threads currently running tasks with each TaskType
+  
+##### Methods
+CustomExecutor(): constructs a new CustomExecutor with a PriorityBlockingQueue and a thread pool of size equal to half the number of available processors on the current system
+  
+Future<T> submit(...): submits the given Task to the executor and returns a Future object for tracking the task's progress and retrieving the result. There are 3 submit functions, such that: if a task is given, apply submit(Task task). else (only a Callable, or a Callable with Priority) create a Task and apply submit(Task task)
+  
+### Other Classes
+#### PriorityBlockingQueue
+The PriorityBlockingQueue is a queue that stores Task objects and orders them based on their priority. It is used by the CustomExecutor to store the submitted tasks and ensure that tasks with higher priorities are run before tasks with lower priorities. The PriorityBlockingQueue uses a Comparator to compare the tasks and determine their ordering
+  
+#### Callable
+The Callable interface represents a task that can be executed by a thread and returns a result
+  
+#### Executor
+The Executor interface provides a way to execute Runnable tasks
+  
+#### ThreadPoolExecutor
+The ThreadPoolExecutor is an implementation of the Executor interface that manages a pool of threads to execute tasks. It has a queue to store the tasks and a set of rules for adding new tasks to the queue and starting new threads
   
