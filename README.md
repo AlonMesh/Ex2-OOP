@@ -29,6 +29,7 @@ A Java thread class used by getNumOfLinesThreads(String[] fileNames) to count th
 A java.util.concurrent.Callable implementation used by getNumOfLinesThreadPool(String[] fileNames) to count the number of lines in a single file. Can be submitted to an java.util.concurrent.Executor or java.util.concurrent.ExecutorService for execution.
 
 ## Ex2_2 (Part2) - Task Execution
+### Summary
 
 The CustomExecutor is designed to run tasks with different priorities. When a task is submitted to the executor, it is added to a PriorityBlockingQueue based on its priority. The PriorityBlockingQueue is a queue that sorts the tasks based on their priority, with the highest priority tasks at the front of the queue.
 
@@ -42,11 +43,26 @@ The CustomExecutor extends the ThreadPoolExecutor class, which provides several 
 * submit(Callable task): adds the given Callable task to the queue and returns a Future object that can be used to track the task's progress and retrieve the result when it is complete
 * shutdown(): begins the process of shutting down the executor, rejecting any new tasks that are submitted
 * awaitTermination(long timeout, TimeUnit unit): blocks until all tasks have completed execution after a shutdown request, or the timeout occurs, whichever happens first.
-* 
+
 The Task class implements the **Callable** interface and provides a **call()** method that is executed by a thread when the task is run. The call() method should contain the code for the task that needs to be performed.
 
 The **compareTo** method of the Task class is used to compare the priority of two tasks. It compares the taskType values of the tasks, with the task having a higher priority being ranked higher. This is used by the PriorityBlockingQueue to sort the tasks based on their priority.
 
+### Classes
+#### Task
+The Task class represents a unit of work that can be submitted to the CustomExecutor for execution. It implements the Callable interface, which allows it to be run by a thread and return a result. The Task class has the following fields and methods:
 
+##### Fields
+taskType: an enum of type TaskType representing the priority of the task
+callable: a Callable object that contains the code for the task
 
+##### Methods
+Task(Callable<T> callable): constructs a new Task with OTHER as the taskType and the given callable
+Task(Callable<T> callable, TaskType taskType): constructs a new Task with the given callable and taskType
+Task(TaskType taskType, Callable<T> callable): constructs a new Task with the given taskType and callable
+static Task createTask(Callable callable, TaskType taskType): creates a new Task with the given callable and taskType
+static Task createTask(Task task): creates a new Task with the same callable and taskType as the given task
+T call() throws Exception: executes the task's callable and returns the result
+int compareTo(T other): compares the priority of this Task to the given other Task, returning a negative integer if this Task has a higher priority, a positive integer if it has a lower priority, or zero if the priorities are equal
 
+  
