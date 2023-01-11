@@ -106,7 +106,7 @@ The Executor interface provides a way to execute Runnable tasks
 ### ThreadPoolExecutor
 The ThreadPoolExecutor is an implementation of the Executor interface that manages a pool of threads to execute tasks. It has a queue to store the tasks and a set of rules for adding new tasks to the queue and starting new threads
   
-## title****************
+## Class diagram:
 
 ### a
   
