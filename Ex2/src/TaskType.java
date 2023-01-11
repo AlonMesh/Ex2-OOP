@@ -48,7 +48,7 @@ public enum TaskType {
      * @param priority
      * @return whether the priority is valid or not
      */
-    private static boolean validatePriority(int priority) { //^^^ 10 or 3?
+    private static boolean validatePriority(int priority) {
         if (priority < 1 || priority > 10) return false;
         return true;
     }

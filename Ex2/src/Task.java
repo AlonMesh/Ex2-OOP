@@ -2,7 +2,7 @@ import java.util.concurrent.Callable;
 
 public class Task<T> implements Callable<T>, Comparable<T>  {
     TaskType taskType; // Each taskType has an integer value (=priority).
-    private final Callable<T> callable;
+    final Callable<T> callable;
 
     // Start constructors.
     public Task(Callable<T> callable) {
@@ -48,6 +48,18 @@ public class Task<T> implements Callable<T>, Comparable<T>  {
             return 1;
         }
         return 0;
+    }
+
+    public TaskType getTaskType() {
+        return taskType;
+    }
+
+    public void setTaskType(TaskType taskType) {
+        this.taskType = taskType;
+    }
+
+    public Callable<T> getCallable() {
+        return callable;
     }
 }
 

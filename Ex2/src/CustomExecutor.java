@@ -2,34 +2,38 @@ import java.util.Comparator;
 import java.util.concurrent.*;
 
 public class CustomExecutor<T> extends ThreadPoolExecutor implements Executor {
-    int[] holder_threads_count;
+    private int[] holder_threads_count;
 
     public CustomExecutor() {
         super(Runtime.getRuntime().availableProcessors()/2, Runtime.getRuntime().availableProcessors()-1, 300, TimeUnit.MILLISECONDS,
-                new PriorityBlockingQueue<>(Runtime.getRuntime().availableProcessors()/2,
-                        Comparator.comparing(t -> ((Task) t))));
-        holder_threads_count = new int[3];
-        holder_threads_count[0] = 0;
-        holder_threads_count[1] = 0;
-        holder_threads_count[2] = 0;
+                new PriorityBlockingQueue<>(Runtime.getRuntime().availableProcessors()/2,Comparator.comparing(t -> ((PriorityFuture) t))));
+        holder_threads_count = new int[10];
+
+        for (int num : holder_threads_count) {
+            num = 0;
+        }
 
     }
 
-    public Future<T> submit(Task task) {
-        /* Each task has priorityValue.
-         * The array holder_threads_count hold at place (i-1) the amount of task with priority i
-         */
+    public PriorityFuture<T> submit(Task task) {
+        // Each task has priorityValue.
+        // The array holder_threads_count hold at place (i-1) the amount of task with priority i
         holder_threads_count[task.taskType.getPriorityValue()-1]++;
 
-        return super.submit((Callable<T>) task);
+        PriorityFuture<T> priorityFuture = PriorityFuture.createPriorityFuture(task);
+
+        execute(priorityFuture); // calls the underlying ThreadPoolExecutor's execute method which will add the task to the Queue
+
+        return priorityFuture; // represents the result
+        // used to check the status of the computation, retrieve its result, or cancel it
     }
 
-    public Future<T> submit(Callable callable, TaskType taskType) {
+    public PriorityFuture<T> submit(Callable<T> callable, TaskType taskType) {
         Task task = Task.createTask(callable, taskType);
         return submit(task);
     }
 
-    public Future<T> submit(Callable callable) {
+    public PriorityFuture<T> submit(Callable callable) {
         Task task = new Task(callable);
         return submit(task);
     }
@@ -54,7 +58,6 @@ public class CustomExecutor<T> extends ThreadPoolExecutor implements Executor {
                     return (i+1);
                 }
             }
-
             return 0;
         }
 
