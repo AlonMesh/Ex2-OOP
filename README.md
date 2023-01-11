@@ -47,8 +47,9 @@ The CustomExecutor uses a pool of threads to run the tasks. When a thread become
 
 ## Major Classes
 ### CustomExecutor
-The CustomExecutor extends the ThreadPoolExecutor class, which provides several methods for managing the pool of threads and the tasks being run. Some of the major functions used by the CustomExecutor include:
+The CustomExecutor extends the ThreadPoolExecutor class, which provides several methods for managing the pool of threads and the tasks being run. 
 
+####Major methods
 * execute(Runnable command): adds the given Runnable task to the queue for execution by a thread in the pool
 submit(Callable task): adds the given Callable task to the queue and returns a PriorityFuture object that can be used to track the task's progress and retrieve the result when it is complete. The PriorityFuture object holds the taskType of the task
 * shutdown(): begins the process of shutting down the executor, rejecting any new tasks that are submitted
@@ -76,19 +77,22 @@ The Task class represents a unit of work that can be submitted to the CustomExec
 * T call() throws Exception: executes the task's callable and returns the result
 * int compareTo(T other): compares the priority of this Task to the given other Task, returning a negative integer if this Task has a higher priority, a positive integer if it has a lower priority, or zero if the priorities are equal
   
-### TaskType
-The TaskType enum represents the priority of a Task. It has three values: COMPUTATIONAL, IO, and OTHER. Each TaskType has an integer value representing its priority, with COMPUTATIONAL having the highest priority and OTHER having the lowest.
+### PriorityFuture
+The PriorityFuture class is a extension of the FutureTask which is a concrete implementation of the Future interface. It is designed to run a callable task, and also hold a priority field that can be used to compare tasks based on their priority.
   
-### CustomExecutor
-The CustomExecutor class extends ThreadPoolExecutor and is used to run Task objects with different priorities. It has a PriorityBlockingQueue to store the tasks based on their priority, and a pool of threads to run the tasks. The CustomExecutor has the following fields and methods:
-
 #### Fields
-* holder_threads_count: an array of integers representing the number of threads currently running tasks with each TaskType
+  * priority: an integer representing the priority of the task.
   
 #### Methods
-* CustomExecutor(): constructs a new CustomExecutor with a PriorityBlockingQueue and a thread pool of size equal to half the number of available processors on the current system
-* Future<T> submit(...): submits the given Task to the executor and returns a Future object for tracking the task's progress and retrieving the result. There are 3 submit functions, such that: if a task is given, apply submit(Task task). else (only a Callable, or a Callable with Priority) create a Task and apply submit(Task task)
+  * PriorityFuture(Callable<T> callable, int priority) : constructor which takes a callable and priority as input
+* static PriorityFuture createPriorityFuture(Task task) : It creates an instance of PriorityFuture by taking task object as input and creates an object with callable of task and priority as taskType.priorityValue
+* compareTo(Object other) : it compares the priority of the current object and other object, if the priority of current object is less than other object it will return -1, if it's greater than other object it will return 1, if it's equal to other object it will return 0.
+
+The PriorityFuture class is used to run a callable task and also to hold the priority of the task, so that it can be used to compare tasks based on their priority. It can be used in scenarios where you want to run tasks concurrently and sort them based on their priority.
   
+### TaskType
+The TaskType enum represents the priority of a Task. It has three values: COMPUTATIONAL, IO, and OTHER. Each TaskType has an integer value representing its priority, with COMPUTATIONAL having the highest priority and OTHER having the lowest.
+    
 ## Other Classes
 ### PriorityBlockingQueue
 The PriorityBlockingQueue is a queue that stores Task objects and orders them based on their priority. It is used by the CustomExecutor to store the submitted tasks and ensure that tasks with higher priorities are run before tasks with lower priorities. The PriorityBlockingQueue uses a Comparator to compare the tasks and determine their ordering
