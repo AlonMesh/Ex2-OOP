@@ -46,10 +46,10 @@ The CustomExecutor is designed to run tasks with different priorities. When a ta
 The CustomExecutor uses a pool of threads to run the tasks. When a thread becomes available, it takes the next highest priority task from the front of the queue and executes it. This ensures that tasks with higher priorities are completed before tasks with lower priorities.
 
 ## Major Classes
-### CustomExecutor
+### Class CustomExecutor
 The CustomExecutor extends the ThreadPoolExecutor class, which provides several methods for managing the pool of threads and the tasks being run. 
 
-####Major methods
+#### Major methods
 * execute(Runnable command): adds the given Runnable task to the queue for execution by a thread in the pool
 submit(Callable task): adds the given Callable task to the queue and returns a PriorityFuture object that can be used to track the task's progress and retrieve the result when it is complete. The PriorityFuture object holds the taskType of the task
 * shutdown(): begins the process of shutting down the executor, rejecting any new tasks that are submitted
@@ -57,7 +57,7 @@ submit(Callable task): adds the given Callable task to the queue and returns a P
 
 The CustomExecutor also has a field holder_threads_count, which is an array of integers representing the number of threads currently running tasks with each TaskType. This can be used to track the number of tasks being run for each priority level and ensure that tasks are being distributed appropriately. Additionally, it returns a PriorityFuture object, when a task is submitted using submit method. The PriorityFuture object holds the taskType of the task.
 
-### Task
+### Class Task
 The Task class implements the **Callable** interface and provides a **call()** method that is executed by a thread when the task is run. The call() method should contain the code for the task that needs to be performed.
 
 The **compareTo** method of the Task class is used to compare the priority of two tasks. It compares the taskType values of the tasks, with the task having a higher priority being ranked higher. This is used by the PriorityBlockingQueue to sort the tasks based on their priority.
@@ -77,7 +77,7 @@ The Task class represents a unit of work that can be submitted to the CustomExec
 * T call() throws Exception: executes the task's callable and returns the result
 * int compareTo(T other): compares the priority of this Task to the given other Task, returning a negative integer if this Task has a higher priority, a positive integer if it has a lower priority, or zero if the priorities are equal
   
-### PriorityFuture
+### Adapter PriorityFuture
 The PriorityFuture class is a extension of the FutureTask which is a concrete implementation of the Future interface. It is designed to run a callable task, and also hold a priority field that can be used to compare tasks based on their priority.
   
 #### Fields
@@ -90,7 +90,7 @@ The PriorityFuture class is a extension of the FutureTask which is a concrete im
 
 The PriorityFuture class is used to run a callable task and also to hold the priority of the task, so that it can be used to compare tasks based on their priority. It can be used in scenarios where you want to run tasks concurrently and sort them based on their priority.
   
-### TaskType
+### Enum TaskType
 The TaskType enum represents the priority of a Task. It has three values: COMPUTATIONAL, IO, and OTHER. Each TaskType has an integer value representing its priority, with COMPUTATIONAL having the highest priority and OTHER having the lowest.
     
 ## Other Classes
@@ -106,3 +106,10 @@ The Executor interface provides a way to execute Runnable tasks
 ### ThreadPoolExecutor
 The ThreadPoolExecutor is an implementation of the Executor interface that manages a pool of threads to execute tasks. It has a queue to store the tasks and a set of rules for adding new tasks to the queue and starting new threads
   
+## title****************
+
+### a
+  
+### b
+
+![image](https://user-images.githubusercontent.com/97172662/211814278-684c3d15-ac13-491f-ae20-9e9c64998900.png)
