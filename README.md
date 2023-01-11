@@ -44,52 +44,52 @@ In this run, all the function share the same seed:
 # Ex2_2 (Part2) - Task Execution
 ## Summary
 
-The CustomExecutor is designed to run tasks with different priorities. When a task is submitted to the executor, it is added to a PriorityBlockingQueue based on its priority. The PriorityBlockingQueue is a queue that sorts the tasks based on their priority, with the highest priority tasks at the front of the queue.
+The **CustomExecutor** is designed to run tasks with different priorities. When a task is submitted to the executor, it is added to a **PriorityBlockingQueue** based on its **priority**. The **PriorityBlockingQueue** is a queue that sorts the tasks based on their priority, with the highest priority tasks at the front of the queue.
 
 The CustomExecutor uses a pool of threads to run the tasks. When a thread becomes available, it takes the next highest priority task from the front of the queue and executes it. This ensures that tasks with higher priorities are completed before tasks with lower priorities.
 
 ## Major Classes
 ### Class CustomExecutor
-The CustomExecutor extends the ThreadPoolExecutor class, which provides several methods for managing the pool of threads and the tasks being run. 
+The CustomExecutor extends the **ThreadPoolExecutor** class, which provides several methods for managing the pool of threads and the tasks being run. 
 
 #### Major methods
-* execute(Runnable command): adds the given Runnable task to the queue for execution by a thread in the pool
-submit(Callable task): adds the given Callable task to the queue and returns a PriorityFuture object that can be used to track the task's progress and retrieve the result when it is complete. The PriorityFuture object holds the taskType of the task
-* shutdown(): begins the process of shutting down the executor, rejecting any new tasks that are submitted
-* awaitTermination(long timeout, TimeUnit unit): blocks until all tasks have completed execution after a shutdown request, or the timeout occurs, whichever happens first.
+* **execute(Runnable command):** adds the given Runnable task to the queue for execution by a thread in the pool
+**submit(Callable task):** adds the given Callable task to the queue and returns a PriorityFuture object that can be used to track the task's progress and retrieve the result when it is complete. The PriorityFuture object holds the taskType of the task
+* **shutdown():** begins the process of shutting down the executor, rejecting any new tasks that are submitted
+* **awaitTermination(long timeout, TimeUnit unit):** blocks until all tasks have completed execution after a shutdown request, or the timeout occurs, whichever happens first.
 
-The CustomExecutor also has a field holder_threads_count, which is an array of integers representing the number of threads currently running tasks with each TaskType. This can be used to track the number of tasks being run for each priority level and ensure that tasks are being distributed appropriately. Additionally, it returns a PriorityFuture object, when a task is submitted using submit method. The PriorityFuture object holds the taskType of the task.
+The CustomExecutor also has a field **holder_threads_count**, which is an array of integers representing the number of threads currently running tasks with each TaskType. This can be used to track the number of tasks being run for each priority level and ensure that tasks are being distributed appropriately. Additionally, it returns a PriorityFuture object, when a task is submitted using submit method. The PriorityFuture object holds the taskType of the task.
 
 ### Class Task
 The Task class implements the **Callable** interface and provides a **call()** method that is executed by a thread when the task is run. The call() method should contain the code for the task that needs to be performed.
 
-The **compareTo** method of the Task class is used to compare the priority of two tasks. It compares the taskType values of the tasks, with the task having a higher priority being ranked higher. This is used by the PriorityBlockingQueue to sort the tasks based on their priority.
+The **compareTo** method of the Task class is used to compare the priority of two tasks. It compares the **taskType** values of the tasks, with the task having a higher priority being ranked higher. This is used by the **PriorityBlockingQueue** to sort the tasks based on their priority.
 
 The Task class represents a unit of work that can be submitted to the CustomExecutor for execution. It implements the Callable interface, which allows it to be run by a thread and return a result. The Task class has the following fields and methods:
 
 #### Fields
-* taskType: an enum of type TaskType representing the priority of the task
-* callable: a Callable object that contains the code for the task
+* **taskType:** an enum of type TaskType representing the priority of the task
+* **callable:** a Callable object that contains the code for the task
 
 #### Methods
-* Task(Callable<T> callable): constructs a new Task with OTHER as the taskType and the given callable
-* Task(Callable<T> callable, TaskType taskType): constructs a new Task with the given callable and taskType
-* Task(TaskType taskType, Callable<T> callable): constructs a new Task with the given taskType and callable
-* static Task createTask(Callable callable, TaskType taskType): creates a new Task with the given callable and taskType
+* **Task(Callable<T> callable):** constructs a new Task with OTHER as the taskType and the given callable
+* **Task(Callable<T> callable, TaskType taskType):** constructs a new Task with the given callable and taskType
+* **Task(TaskType taskType, Callable<T> callable):** constructs a new Task with the given taskType and callable
+* **static Task createTask(Callable callable, TaskType taskType):** creates a new Task with the given callable and taskType
 * static Task createTask(Task task): creates a new Task with the same callable and taskType as the given task
-* T call() throws Exception: executes the task's callable and returns the result
-* int compareTo(T other): compares the priority of this Task to the given other Task, returning a negative integer if this Task has a higher priority, a positive integer if it has a lower priority, or zero if the priorities are equal
+* **T call() throws Exception:** executes the task's callable and returns the result
+* **int compareTo(T other):** compares the priority of this Task to the given other Task, returning a negative integer if this Task has a higher priority, a positive integer if it has a lower priority, or zero if the priorities are equal
   
 ### Adapter PriorityFuture
-The PriorityFuture class is a extension of the FutureTask which is a concrete implementation of the Future interface. It is designed to run a callable task, and also hold a priority field that can be used to compare tasks based on their priority.
+The **PriorityFuture** class is a extension of the **FutureTask** which is a concrete implementation of the **Future** interface. It is designed to run a callable task, and also hold a **priority** field that can be used to compare tasks based on their priority.
   
 #### Fields
-  * priority: an integer representing the priority of the task.
+  * **priority:** an integer representing the priority of the task.
   
 #### Methods
-  * PriorityFuture(Callable<T> callable, int priority) : constructor which takes a callable and priority as input
-* static PriorityFuture createPriorityFuture(Task task) : It creates an instance of PriorityFuture by taking task object as input and creates an object with callable of task and priority as taskType.priorityValue
-* compareTo(Object other) : it compares the priority of the current object and other object, if the priority of current object is less than other object it will return -1, if it's greater than other object it will return 1, if it's equal to other object it will return 0.
+* **PriorityFuture(Callable<T> callable, int priority):** constructor which takes a callable and priority as input
+* **static PriorityFuture createPriorityFuture(Task task):** It creates an instance of PriorityFuture by taking task object as input and creates an object with callable of task and priority as taskType.priorityValue
+* **compareTo(Object other):** it compares the priority of the current object and other object, if the priority of current object is less than other object it will return -1, if it's greater than other object it will return 1, if it's equal to other object it will return 0.
 
 The PriorityFuture class is used to run a callable task and also to hold the priority of the task, so that it can be used to compare tasks based on their priority. It can be used in scenarios where you want to run tasks concurrently and sort them based on their priority.
   
@@ -98,16 +98,16 @@ The TaskType enum represents the priority of a Task. It has three values: COMPUT
     
 ## Other Classes
 ### PriorityBlockingQueue
-The PriorityBlockingQueue is a queue that stores Task objects and orders them based on their priority. It is used by the CustomExecutor to store the submitted tasks and ensure that tasks with higher priorities are run before tasks with lower priorities. The PriorityBlockingQueue uses a Comparator to compare the tasks and determine their ordering
+The **PriorityBlockingQueue** is a queue that stores **Task** objects and orders them based on their priority. It is used by the CustomExecutor to store the submitted tasks and ensure that tasks with higher priorities are run before tasks with lower priorities. The PriorityBlockingQueue uses a Comparator to compare the tasks and determine their ordering
   
 ### Callable
-The Callable interface represents a task that can be executed by a thread and returns a result
+The **Callable** interface represents a task that can be executed by a thread and returns a result
   
 ### Executor
-The Executor interface provides a way to execute Runnable tasks
+The **Executor** interface provides a way to execute Runnable tasks
   
 ### ThreadPoolExecutor
-The ThreadPoolExecutor is an implementation of the Executor interface that manages a pool of threads to execute tasks. It has a queue to store the tasks and a set of rules for adding new tasks to the queue and starting new threads
+The **ThreadPoolExecutor** is an implementation of the Executor interface that manages a pool of threads to execute tasks. It has a queue to store the tasks and a set of rules for adding new tasks to the queue and starting new threads
   
 ## Additionality
 
