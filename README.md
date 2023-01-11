@@ -27,7 +27,10 @@ A Java thread class used by getNumOfLinesThreads(String[] fileNames) to count th
 ### CountLinesPool
 A java.util.concurrent.Callable implementation used by getNumOfLinesThreadPool(String[] fileNames) to count the number of lines in a single file. Can be submitted to an java.util.concurrent.Executor or java.util.concurrent.ExecutorService for execution.
 
-## Examples:
+## Class diagram
+![image](https://user-images.githubusercontent.com/97172662/211861551-aa123c6b-0ade-4b0a-a928-bdaf00f8fe66.png)
+
+## Examples
 Each example runs 10,000 files that contains a random number x between 0 and 300.
 
 In this run, the seed of each function is diffrent:
@@ -106,10 +109,11 @@ The Executor interface provides a way to execute Runnable tasks
 ### ThreadPoolExecutor
 The ThreadPoolExecutor is an implementation of the Executor interface that manages a pool of threads to execute tasks. It has a queue to store the tasks and a set of rules for adding new tasks to the queue and starting new threads
   
-## Class diagram:
+## Additionality
 
-### a
+### Class diagram
+![image](https://user-images.githubusercontent.com/97172662/211861192-ea677a75-9352-4d2d-8ad4-81cb409fae3b.png)
+
   
-### b
-
+### Flowchart
 ![image](https://user-images.githubusercontent.com/97172662/211814278-684c3d15-ac13-491f-ae20-9e9c64998900.png)
