@@ -112,8 +112,7 @@ The **ThreadPoolExecutor** is an implementation of the Executor interface that m
 ## Additionality
 
 ### Class diagram
-![image](https://user-images.githubusercontent.com/97172662/211861192-ea677a75-9352-4d2d-8ad4-81cb409fae3b.png)
-
+![image](https://user-images.githubusercontent.com/97172662/212300392-6ce4acb5-8cbe-4eb6-9948-15512936def4.png)
   
 ### Flowchart
 ![image](https://user-images.githubusercontent.com/97172662/211861712-2a2c3498-6d26-4847-a7a0-3982f5b6679a.png)
